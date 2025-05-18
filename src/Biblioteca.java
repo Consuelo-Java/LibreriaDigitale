@@ -7,6 +7,9 @@ public class Biblioteca<T> {
     Queue<Libro<?>> daRestituire;
 
     public boolean aggiungiLibro(Libro<?> libro){
+        if(libri == null){
+            libri = new ArrayList<>();
+        }
         return libri.add(libro);
     }
 
@@ -23,6 +26,9 @@ public class Biblioteca<T> {
         if(nome == null || nome.isEmpty()){
             throw new IllegalArgumentException("Non si puo' aggiungere un utente senza nome");
         }
+        if(utenti == null){
+            utenti = new HashSet<>();
+        }
         utenti.add(nome);
     }
 
@@ -32,6 +38,9 @@ public class Biblioteca<T> {
         }
         if(!libri.contains(libro)){
             throw new IllegalArgumentException("Libro "+libro.titolo+" ("+libro.autore+") non trovato o gia' in prestito");
+        }
+        if(prestitiUtenti == null){
+            prestitiUtenti = new HashMap<>();
         }
         if(prestitiUtenti.containsKey(nome)){
             Stack<Libro<?>> libriInPrestito = prestitiUtenti.get(nome);
@@ -53,6 +62,9 @@ public class Biblioteca<T> {
             throw new IllegalArgumentException("L'utente "+nome+" non ha libri da restituire");
         }
         Libro<?> libro = libriInPrestito.pop();
+        if(daRestituire == null){
+            daRestituire = new ArrayDeque<>();
+        }
         daRestituire.add(libro);
     }
 
