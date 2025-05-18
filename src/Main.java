@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,5 +41,66 @@ public class Main {
             System.out.println(libro.titolo+" ("+libro.autore+")");
         }
 
+        biblioteca.registraUtente("Mario");
+        biblioteca.registraUtente("Anna");
+        biblioteca.registraUtente("Serena");
+        biblioteca.registraUtente("Giovanni");
+        biblioteca.registraUtente("Giulia");
+
+        biblioteca.prestaLibro("Mario", libro8);
+        stampaBiblioteca(biblioteca);
+        biblioteca.prestaLibro("Mario", libro2);
+        stampaBiblioteca(biblioteca);
+        biblioteca.prestaLibro("Mario", libro7);
+        stampaBiblioteca(biblioteca);
+        try{
+            biblioteca.prestaLibro("Samuele", libro5);
+            stampaBiblioteca(biblioteca);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        biblioteca.prestaLibro("Serena", libro5);
+        stampaBiblioteca(biblioteca);
+        biblioteca.restauraLibro("Mario");
+        stampaBiblioteca(biblioteca);
+        biblioteca.prestaLibro("Mario", libro1);
+        stampaBiblioteca(biblioteca);
+        biblioteca.prestaLibro("Anna", libro12);
+        stampaBiblioteca(biblioteca);
+        biblioteca.restauraLibro("Serena");
+        stampaBiblioteca(biblioteca);
+        biblioteca.restauraLibro("Mario");
+        stampaBiblioteca(biblioteca);
+        biblioteca.restauraLibro("Mario");
+        stampaBiblioteca(biblioteca);
+
+    }
+
+    private static void stampaBiblioteca(Biblioteca<?> biblioteca){
+        for (String utente : biblioteca.utenti){
+            Stack<Libro<?>> libriUtente = biblioteca.prestitiUtenti.get(utente);
+            StringBuilder sb = new StringBuilder();
+            if(libriUtente != null) {
+                for (Libro<?> libro : libriUtente) {
+                    if(sb.length() > 0){
+                        sb.append(", ");
+                    }
+                    sb.append(libro.titolo);
+                }
+            }
+            System.out.println("Utente "+utente+" libri in prestito: "+(sb.toString().isEmpty()? "nessuno" : sb.toString()));
+        }
+        StringBuilder sb2 = new StringBuilder();
+        if(biblioteca.daRestituire != null){
+            for (Libro<?> libro : biblioteca.daRestituire) {
+                if(sb2.length() > 0){
+                    sb2.append(", ");
+                }
+                sb2.append(libro.titolo);
+            }
+            System.out.println("Libri restituiti: "+sb2);
+        } else {
+            System.out.println("Nessun libro resituito");
+        }
     }
 }
